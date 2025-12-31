@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quant-risk-metrics"
+version = "0.1.0"
+description = "Python Library for core risk metrics."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+dependencies = [
+    "pandas~=2.2",
+    "pyyaml>=6.0, <7.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4, <9.0",
+    "pytest-cov>=4.1, <6.0",
+    "mypy>=1.8, <2.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+
