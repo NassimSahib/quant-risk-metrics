@@ -1,9 +1,22 @@
+# Python
 __pycache__/
+*.pyc 
+*.egg-info/
+
+# Virtual environments
 .venv/
+
+# Data
 data/*
 !data/.keep
+
+# Jupyter
 .ipynb_checkpoints/
+
+# Testing / typing
 .pytest_cache/
 .mypy_cache/
+
+# Editors
 .vscode/
 .idea/
