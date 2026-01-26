@@ -7,8 +7,7 @@ def main() -> None:
     log.info("Starting quant-risk-metrics")
     log.info("Done")
 
-    name = input("Envoi ton prenom\n")
-    print(name)
+
 
 if __name__ == "__main__":
     main()

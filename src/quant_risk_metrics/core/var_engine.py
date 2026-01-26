@@ -4,10 +4,20 @@ from scipy.stats import norm
 
 class VaREngine:
     """
-    Value-at-Risk engine supporting:
-    - Parametric (Gaussian) VaR
-    - Historical VaR
-    - Monte Carlo VaR
+    Market Risk Engine supporting tail risk measures.
+
+    Measures: 
+    - Value-at-Risk (VaR)
+    - Expected Shortfall (ES)
+
+    Methods:
+    - Parametric (Gaussian)
+    - Historical
+    - Monte Carlo
+
+    Convention:
+    - Input: 1D array of returns
+    - Output: positive number representing a loss
     """
 
     def __init__(self, returns):
@@ -19,6 +29,8 @@ class VaREngine:
         self.mu = self.returns.mean()
         self.sigma = self.returns.std(ddof=1)
     
+    # VaR
+
     def var_parametric(self, alpha: float = 0.99) -> float:
         """
         Gaussian parametric VaR.
@@ -44,8 +56,20 @@ class VaREngine:
         rng = np.random.default_rng(random_state)
         simulated_returns = rng.normal(self.mu, self.sigma, size=n_sims)
         return -np.quantile(simulated_returns, 1 - alpha)
-
     
+    # ES
 
-
-
+    def es_parametric(self, alpha: float = 0.99) -> float:
+        """
+        Gaussian parametric Expected Shortfall.
+        """
+        z = norm.ppf(1 - alpha)
+        return -(self.mu - self.sigma * norm.pdf(z) / (1 - alpha))
+    
+    def es_historical(self, alpha: float = 0.99) -> float:
+        """
+        Historical Expected Shortfall.
+        """
+        var_threshold = np.quantile(self.returns, 1 - alpha)
+        tail_losses = self.returns[self.returns <= var_threshold]
+        return -tail_losses.mean()
